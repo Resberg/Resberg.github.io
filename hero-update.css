@@ -6,3 +6,8 @@
 @media(max-width:380px){.hero-centered{height:745px}.hero-centered h1>.name-left{top:84px}.hero-centered h1>.name-right{top:141px}.hero-photo-stage{top:192px;bottom:155px;width:93%}.hero-centered .hero-copy h2{font-size:18px}.hero-centered .hero-copy p{font-size:11px}.hero-social{width:44px;height:44px}.socials-left{left:4%}.socials-right{right:4%}.hero-centered .hero-bottom{bottom:13px}}
 @media(max-height:800px) and (min-width:751px){.hero-centered{height:700px;min-height:0}.hero-photo-stage{top:30px;bottom:125px}.hero-centered h1>.name-left,.hero-centered h1>.name-right{top:39%}.hero-social-group{top:61%}}
 @media(prefers-reduced-motion:reduce){.hero-centered h1>span,.hero-cutout{animation:none}.hero-social:hover,.hero-social:focus-visible{translate:none}}
+
+/* Pointer-responsive grid stays behind the name, portrait and links. */
+.hero-kinetic-grid{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;mask-image:radial-gradient(ellipse 82% 64% at 50% 46%,#000 35%,transparent 100%)}
+.hero-centered .hero-orbit{display:none}
+@media(max-width:750px){.hero-kinetic-grid{mask-image:radial-gradient(ellipse 95% 60% at 50% 42%,#000 25%,transparent 100%)}}
