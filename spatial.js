@@ -9,11 +9,11 @@ theatre.insertAdjacentHTML('beforeend','<div class="scene-status"><div class="sc
 document.querySelector('.hero-grid').insertAdjacentHTML('beforeend','<div class="camera-guide" aria-hidden="true"><svg viewBox="0 0 50 50"><path d="M25 3 46 15 46 36 25 48 4 36 4 15Z M4 15 25 27 46 15 M25 27V48 M25 3V15L4 27 M25 15 46 27"/></svg><div><b>A change of perspective.</b><small>Scroll. Lihat dari sudut berbeda.</small></div></div>');
 const cards=[...deck.querySelectorAll('.project-card')];
 const previous=theatre.querySelector('.scene-nav button:first-child'),next=theatre.querySelector('.scene-nav button:last-child');
-const spatialMedia=matchMedia('(min-height: 650px), (min-width: 701px)');
+const spatialMedia=matchMedia('(min-width: 901px) and (min-height: 650px)');
 let spatial=false,frame=0,activeIndex=0,visibleCards=cards;
 const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
 function geometry(){const top=parseFloat(getComputedStyle(theatre).top)||0;const r=scene.getBoundingClientRect();return {start:scrollY+r.top-top,travel:Math.max(1,scene.offsetHeight-theatre.offsetHeight)}}
-function updateSpatialMode(){spatial=!paused&&!reduced.matches&&spatialMedia.matches;document.body.classList.toggle('spatial-enabled',spatial);scene.style.setProperty('--scene-height',`${(visibleCards.length+1)*85}svh`);if(!spatial){cards.forEach(c=>{c.style.removeProperty('--card-transform');c.style.opacity='';c.style.zIndex='';c.removeAttribute('data-active');c.removeAttribute('aria-hidden');c.tabIndex=0});document.querySelectorAll('.hero-title,.hero-grid,.about,.journey,.photo-section,.certifications').forEach(e=>e.style.transform='');document.querySelector('.contact').style.removeProperty('--contact-cut');document.querySelector('.contact').style.removeProperty('--contact-x')}scheduleSpatial()}
+function updateSpatialMode(){spatial=!paused&&!reduced.matches&&spatialMedia.matches;document.body.classList.toggle('spatial-enabled',spatial);scene.style.setProperty('--scene-height',`${(visibleCards.length+1)*66}svh`);if(!spatial){cards.forEach(c=>{c.style.removeProperty('--card-transform');c.style.opacity='';c.style.zIndex='';c.removeAttribute('data-active');c.removeAttribute('aria-hidden');c.tabIndex=0});document.querySelectorAll('.hero-title,.hero-grid,.about,.journey,.photo-section,.certifications').forEach(e=>e.style.transform='');document.querySelector('.contact').style.removeProperty('--contact-cut');document.querySelector('.contact').style.removeProperty('--contact-x')}scheduleSpatial()}
 function paintSpatial(){frame=0;if(!spatial)return;
  const mobile=innerWidth<=700,h=innerHeight,{start,travel}=geometry(),progress=clamp((scrollY-start)/travel,0,1);
  // Hold the first and last panel before leaving the scene.
@@ -28,7 +28,7 @@ function paintSpatial(){frame=0;if(!spatial)return;
  const hero=document.querySelector('.hero'),hp=clamp(scrollY/hero.offsetHeight,0,1);
  document.querySelector('.hero-title').style.transform=`translate3d(${-hp*90}px,${hp*40}px,${-hp*240}px) rotateX(${hp*20}deg) rotateY(${-hp*10}deg) rotateZ(${-hp*3}deg)`;
  document.querySelector('.hero-grid').style.transform=`translate3d(${hp*35}px,${hp*-30}px,0) rotateX(${hp*-8}deg) rotateY(${hp*12}deg)`;
- for(const selector of ['.about','.journey','.photo-section','.certifications']){const el=document.querySelector(selector),r=el.getBoundingClientRect(),t=clamp((r.top+r.height/2-h/2)/h,-1,1);el.style.transform=`perspective(2400px) rotateX(${t*(mobile?2:5)}deg) rotateY(${t*(mobile?2:5)}deg) scale(${1-Math.abs(t)*.025})`}
+ for(const selector of ['.journey','.photo-section','.certifications']){const el=document.querySelector(selector),r=el.getBoundingClientRect(),t=clamp((r.top+r.height/2-h/2)/h,-1,1);el.style.transform=`perspective(2400px) rotateX(${t*(mobile?2:5)}deg) rotateY(${t*(mobile?2:5)}deg) scale(${1-Math.abs(t)*.025})`}
  const photo=document.querySelector('.photo-strip').getBoundingClientRect(),pt=clamp((h-photo.top)/(h+photo.height),0,1);document.querySelectorAll('.photo-slot').forEach((el,i)=>{el.style.setProperty('--photo-angle',`${(pt-.5)*(i-1)*38}deg`);el.style.setProperty('--photo-y',`${Math.sin(pt*Math.PI)*(i===1?-25:15)}px`)});
  const contact=document.querySelector('.contact'),cp=clamp(contact.getBoundingClientRect().top/h,0,1);contact.style.setProperty('--contact-cut',`${cp*12}%`);contact.style.setProperty('--contact-x',`${cp*(mobile?20:90)}px`);
 }
