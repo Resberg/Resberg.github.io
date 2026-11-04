@@ -6,7 +6,6 @@ const viewport=document.createElement('div');viewport.className='project-viewpor
 const deck=theatre.querySelector('.project-grid');deck.before(viewport);viewport.append(deck);
 theatre.insertAdjacentHTML('afterbegin','<div class="scene-grid" aria-hidden="true"></div><div class="scene-word" aria-hidden="true">EXPLORE.</div>');
 theatre.insertAdjacentHTML('beforeend','<div class="scene-status"><div class="scene-counter"><span id="scene-number">01</span><small>/ <span id="scene-total">06</span></small></div><p id="scene-name">Robot Sumo</p><span class="camera-line" aria-hidden="true"><i></i></span></div><div class="scene-footnote"><span aria-hidden="true"></span><span>Scroll untuk mengubah perspektif</span></div><div class="scene-nav" role="group" aria-label="Navigasi ruang proyek"><button aria-label="Proyek sebelumnya">←</button><button aria-label="Proyek berikutnya">→</button></div>');
-document.querySelector('.hero-grid').insertAdjacentHTML('beforeend','<div class="camera-guide" aria-hidden="true"><svg viewBox="0 0 50 50"><path d="M25 3 46 15 46 36 25 48 4 36 4 15Z M4 15 25 27 46 15 M25 27V48 M25 3V15L4 27 M25 15 46 27"/></svg><div><b>A change of perspective.</b><small>Scroll. Lihat dari sudut berbeda.</small></div></div>');
 const cards=[...deck.querySelectorAll('.project-card')];
 const previous=theatre.querySelector('.scene-nav button:first-child'),next=theatre.querySelector('.scene-nav button:last-child');
 const spatialMedia=matchMedia('(min-height: 650px), (min-width: 701px)');
