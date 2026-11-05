@@ -4,7 +4,8 @@ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 addEventListener('pointermove',()=>document.querySelector('.cursor').classList.add('tracking'),{once:true});
 let paused=reduced.matches;
 const motionButton=document.querySelector('.motion-control');
-function setMotion(){document.body.classList.toggle('motion-paused',paused);motionButton.textContent=paused?'▷':'Ⅱ';motionButton.setAttribute('aria-label',paused?'Aktifkan animasi':'Jeda animasi');motionButton.title=motionButton.getAttribute('aria-label');}
+const motionIcons={pause:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6" y="4" width="4" height="16" rx="1.5"/><rect x="14" y="4" width="4" height="16" rx="1.5"/></svg>',play:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5a1 1 0 0 1 1.5-.86l10 6.5a1 1 0 0 1 0 1.72l-10 6.5A1 1 0 0 1 8 18.5Z"/></svg>'};
+function setMotion(){document.body.classList.toggle('motion-paused',paused);motionButton.innerHTML=paused?motionIcons.play:motionIcons.pause;motionButton.setAttribute('aria-pressed',String(paused));motionButton.setAttribute('aria-label',paused?'Aktifkan animasi':'Jeda animasi');motionButton.title=motionButton.getAttribute('aria-label');}
 setMotion();motionButton.addEventListener('click',()=>{paused=!paused;setMotion()});
 document.querySelectorAll('.hero h1>span').forEach((el,i)=>el.style.setProperty('--i',i));
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}}),{threshold:.08});document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
