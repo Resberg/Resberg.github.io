@@ -1,0 +1,22 @@
+/* Original brand artwork stays in its own colors and proportions. */
+.experience-summary-item{grid-template-columns:64px 1fr auto}
+.experience-mark.org-mark{width:64px;height:64px;border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden;display:grid;place-items:center}
+.org-mark{position:relative}
+.org-mark img{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:block;object-fit:contain;max-width:none}
+.org-iot img{width:145%;height:145%}
+.org-sudut img{width:115%;height:115%}
+.software-icon.app-brand{background:#fff;border:1px solid var(--line);padding:14px;overflow:hidden}
+.software-icon.app-brand img{display:block;width:100%;height:100%;object-fit:contain}
+.software-tool:hover .software-icon.app-brand{transform:translateY(-4px);box-shadow:none;border-color:#9cafe9}
+.timeline-org{display:flex;align-items:center;gap:12px;margin:13px 0 16px}
+.timeline-org .org-mark{width:56px;height:56px;flex:0 0 56px;border:1px solid var(--line);background:#fff;border-radius:10px;overflow:hidden;display:grid;place-items:center}
+.timeline-item .timeline-org p{margin:0;line-height:1.7}
+@media(max-width:600px){
+  .experience-summary-item{grid-template-columns:56px 1fr;gap:10px 13px}
+  .experience-mark.org-mark{width:56px;height:56px}
+  .software-icon.app-brand{padding:10px}
+  .timeline-org{gap:9px}
+  .timeline-org .org-mark{width:48px;height:48px;flex-basis:48px}
+}
+@media(prefers-reduced-motion:reduce){.software-tool:hover .software-icon.app-brand{transform:none}}
+body.motion-paused .software-tool:hover .software-icon.app-brand{transform:none}
