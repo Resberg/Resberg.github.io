@@ -26,6 +26,16 @@ const projects = {
       "Robot sumo",
       "Desain 3D",
       "Hardware engineering"
+    ],
+    "models": [
+      {
+        "label": "Sumo final",
+        "src": "assets/models/sumo-final.glb"
+      },
+      {
+        "label": "Sumo 1 kg",
+        "src": "assets/models/sumo-1kg.glb"
+      }
     ]
   },
   "transporter": {
@@ -55,6 +65,12 @@ const projects = {
       "Fusion 360",
       "Desain 3D",
       "Embedded system"
+    ],
+    "models": [
+      {
+        "label": "Transporter",
+        "src": "assets/models/transporter.glb"
+      }
     ]
   },
   "agv": {
