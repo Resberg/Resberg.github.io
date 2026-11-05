@@ -1,0 +1,23 @@
+/* One moving typographic belt, with the portrait between its two halves. */
+.hero-photo-stage{isolation:isolate}
+.hero-portrait-frame{z-index:1}
+.body-ribbon{position:absolute;left:50%;top:74%;width:124%;height:180px;transform:translate(-50%,-50%);pointer-events:none}
+.ribbon-rear{z-index:0}
+.ribbon-front{z-index:2}
+.ribbon-caption{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+:root{--motion-ease:cubic-bezier(.22,1,.36,1)}
+.button,.filters button,.hero-social,.scene-nav button,.nav nav a,.nav-contact{transition-duration:.3s;transition-timing-function:var(--motion-ease);transition-property:background-color,color,border-color,box-shadow,opacity,transform,translate}
+.button.primary:hover{box-shadow:0 10px 24px -12px #143aba75}
+.reveal{transition:opacity .65s var(--motion-ease),transform .8s var(--motion-ease)}
+.word-window span{transition:transform .45s var(--motion-ease),opacity .3s ease}
+.photo-slot{transition:box-shadow .4s var(--motion-ease)}
+dialog[open]{animation-timing-function:var(--motion-ease);animation-duration:.3s}
+section[data-motion-visible="false"] *,section[data-motion-visible="false"] *:before,section[data-motion-visible="false"] *:after,.page-hidden *,.page-hidden *:before,.page-hidden *:after{animation-play-state:paused!important}
+
+@media(max-width:750px){.body-ribbon{width:112%;height:150px;top:74%}}
+@media(prefers-reduced-motion:reduce){
+  .reveal,.reveal.visible{opacity:1;transform:none;transition:none}
+  .button,.filters button,.hero-social,.scene-nav button,.nav nav a,.nav-contact{transition:color .15s,background-color .15s}
+  .word-window span{transition:none}
+}
