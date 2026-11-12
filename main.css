@@ -418,3 +418,5 @@ body.modal-open{overflow:hidden}
 @keyframes edu-pulse{to{stroke-dashoffset:-1280}}
 .edu-main .edu-progress{margin-top:0;padding-top:24px}
 @media (prefers-reduced-motion:reduce){.edu-wave-pulse{animation:none;stroke-dasharray:none}}
+
+.video-tags{margin:-12px 0 30px}
