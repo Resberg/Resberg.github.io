@@ -76,13 +76,4 @@
       initialize();
     }
   };
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('[data-project]').forEach(card => {
-      if (!projects[card.dataset.project]?.models) return;
-      const badge = document.createElement('span');
-      badge.className = 'project-model-badge';
-      badge.textContent = '3D interaktif';
-      card.querySelector('.project-art').append(badge);
-    });
-  }, { once: true });
 })();
