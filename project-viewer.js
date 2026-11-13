@@ -1,79 +1,107 @@
-// Load the self-hosted viewer only when a project with a 3D model is opened.
+/* 3D model viewer for project case studies.
+   - Shows a static CAD render (poster) first; nothing heavy loads until the visitor asks.
+   - Loads the self-hosted <model-viewer> (~1 MB) and the .glb only on request.
+   - Falls back to the poster with a clear message if WebGL or the download fails.
+   - touch-action: pan-y keeps vertical page scrolling working on phones. */
 (() => {
-  let library, attempts = 0;
+  let library = null;
+  const hasWebGL = (() => { try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch { return false; } })();
   function loadLibrary() {
     if (customElements.get('model-viewer')) return Promise.resolve();
     if (!library) {
-      const suffix = attempts++ ? '?attempt=' + attempts : '';
-      library = import('./assets/vendor/model-viewer-4.4.0.min.js' + suffix)
+      library = import('./assets/vendor/model-viewer-4.4.0.min.js')
         .then(async () => { await customElements.whenDefined('model-viewer'); customElements.get('model-viewer').meshoptDecoderLocation = './assets/vendor/meshopt-decoder-1.3.0.js'; })
-        .catch(error => { library = null; throw error; });
+        .catch(err => { library = null; throw err; });
     }
     return library;
   }
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
   window.ProjectModelViewer = {
-    async mount(host, models) {
-      let disposed = false, viewer, selected = models[0];
+    mount(host, models) {
+      let selected = models[0], viewer = null, disposed = false;
       host.className = 'project-model-preview';
-      host.innerHTML = `<div class="model-toolbar"><div><h3>Preview 3D</h3><span class="model-current-name"></span></div><div class="model-actions"><select aria-label="Pilih model 3D"></select><button type="button" class="model-reset">Atur ulang</button></div></div><div class="model-stage" aria-busy="true"><div class="model-message" role="status" aria-live="polite"><span>Menyiapkan preview 3D…</span><button type="button" class="model-retry" hidden>Coba lagi</button></div><div class="model-zoom" role="group" aria-label="Zoom model"><button type="button" aria-label="Perbesar model"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg></button><button type="button" aria-label="Perkecil model">−</button></div></div><p class="model-help"><span>Seret untuk memutar · Gulir atau cubit untuk zoom.</span><span>Shift + seret atau dua jari untuk menggeser.</span></p>`;
-      const stage = host.querySelector('.model-stage'), message = host.querySelector('.model-message');
-      const select = host.querySelector('select'), retry = host.querySelector('.model-retry');
-      const reset = host.querySelector('.model-reset'), zoom = [...host.querySelectorAll('.model-zoom button')];
-      for (const model of models) {
-        const option = document.createElement('option'); option.textContent = model.label; option.value = model.src; select.append(option);
-      }
-      select.hidden = models.length < 2;
+      host.innerHTML = `
+        <div class="model-toolbar">
+          <div><h3>Model CAD</h3><p class="model-help">Seret untuk memutar · cubit atau gulir untuk zoom · dua jari untuk menggeser</p></div>
+          <div class="model-actions">
+            ${models.length > 1 ? `<label class="vh" for="model-pick">Pilih model</label><select id="model-pick">${models.map(m => `<option value="${esc(m.src)}">${esc(m.label)}</option>`).join('')}</select>` : ''}
+            <button type="button" class="model-reset" hidden>Atur ulang</button>
+          </div>
+        </div>
+        <div class="model-stage">
+          <img class="model-poster" alt="" width="1000" height="1000">
+          <div class="model-overlay">
+            <button type="button" class="chip chip-solid model-load"></button>
+            <p class="model-msg" role="status" aria-live="polite"></p>
+          </div>
+        </div>`;
+      const stage = host.querySelector('.model-stage'), poster = host.querySelector('.model-poster');
+      const loadBtn = host.querySelector('.model-load'), msg = host.querySelector('.model-msg');
+      const select = host.querySelector('select'), reset = host.querySelector('.model-reset');
       host.closest('dialog').addEventListener('close', () => { disposed = true; host.replaceChildren(); }, { once: true });
-      function state(value, text) {
-        host.dataset.viewerState = value;
-        stage.setAttribute('aria-busy', String(value === 'loading'));
-        message.hidden = value === 'ready';
-        message.querySelector('span').textContent = text || '';
-        retry.hidden = value !== 'error';
-        reset.disabled = value !== 'ready'; zoom.forEach(button => button.disabled = value !== 'ready');
+
+      function showPoster() {
+        poster.src = selected.poster;
+        poster.alt = 'Render statis model CAD ' + selected.label;
+        loadBtn.textContent = `Putar model 3D (${selected.size})`;
+      }
+      function state(s, text) {
+        host.dataset.state = s;
+        msg.textContent = text || '';
+        loadBtn.hidden = s === 'loading' || s === 'ready' || s === 'nowebgl';
+        stage.setAttribute('aria-busy', String(s === 'loading'));
+        reset.hidden = s !== 'ready';
       }
       function resetCamera() {
+        viewer.setAttribute('camera-orbit', '35deg 68deg auto');
         viewer.setAttribute('camera-target', 'auto auto auto');
-        viewer.setAttribute('camera-orbit', '45deg 65deg auto');
-        viewer.setAttribute('field-of-view', '35deg');
+        viewer.setAttribute('field-of-view', '30deg');
       }
-      function choose(bust = false) {
-        selected = models.find(model => model.src === select.value) || models[0];
-        host.querySelector('.model-current-name').textContent = selected.label;
-        state('loading', 'Memuat ' + selected.label + '…');
-        if (!viewer) return;
-        viewer.alt = 'Model 3D ' + selected.label + '. Seret untuk memutar dan cubit atau gulir untuk zoom.';
-        resetCamera();
-        viewer.setAttribute('src', selected.src + (bust ? '?retry=' + Date.now() : ''));
-      }
-      async function initialize(reload = false) {
-        state('loading', 'Menyiapkan preview 3D…');
+      async function start() {
+        state('loading', 'Memuat viewer 3D…');
         try {
           await loadLibrary();
-          if (disposed || !host.isConnected) return;
+          if (disposed) return;
           if (!viewer) {
             viewer = document.createElement('model-viewer');
-            for (const [key, value] of Object.entries({ 'camera-controls': '', 'touch-action': 'pan-y', 'shadow-intensity': '0.7', 'shadow-softness': '1', exposure: '0.85', 'interaction-prompt': 'none', 'interpolation-decay': matchMedia('(prefers-reduced-motion: reduce)').matches ? '0' : '100' })) viewer.setAttribute(key, value);
-            viewer.addEventListener('load', () => { if (!disposed) state('ready'); });
-            viewer.addEventListener('error', () => { if (!disposed) state('error', 'Preview 3D belum bisa ditampilkan. Coba muat kembali.'); });
-            viewer.addEventListener('progress', event => {
-              if (host.dataset.viewerState === 'loading') message.querySelector('span').textContent = 'Memuat model… ' + Math.round(event.detail.totalProgress * 100) + '%';
-            });
+            const attrs = { 'camera-controls': '', 'touch-action': 'pan-y', 'interaction-prompt': 'none', 'shadow-intensity': '0.8', exposure: '0.9',
+              'interpolation-decay': matchMedia('(prefers-reduced-motion: reduce)').matches ? '0' : '120' };
+            for (const [k, v] of Object.entries(attrs)) viewer.setAttribute(k, v);
+            viewer.addEventListener('load', () => { if (!disposed) { stage.classList.add('is-3d'); state('ready'); } });
+            viewer.addEventListener('error', () => { if (!disposed) { stage.classList.remove('is-3d'); state('error', 'Model 3D gagal dimuat. Render statis tetap ditampilkan — coba lagi.'); } });
+            viewer.addEventListener('progress', e => { if (host.dataset.state === 'loading') msg.textContent = 'Memuat model… ' + Math.round(e.detail.totalProgress * 100) + '%'; });
             stage.prepend(viewer);
           }
-          choose(reload);
-        } catch (error) { if (!disposed) state('error', 'Viewer belum berhasil dimuat. Periksa koneksi lalu coba lagi.'); }
+          // model-viewer does not always emit "error" for a missing file, so check it first
+          const head = await fetch(selected.src, { method: 'HEAD' }).catch(() => null);
+          if (disposed) return;
+          if (!head || !head.ok) throw new Error('model missing');
+          viewer.setAttribute('poster', selected.poster);
+          viewer.alt = 'Model 3D ' + selected.label + ' yang dapat diputar';
+          resetCamera();
+          viewer.setAttribute('src', selected.src);
+          const want = selected.src;
+          setTimeout(() => {
+            if (!disposed && host.dataset.state === 'loading' && selected.src === want) {
+              stage.classList.remove('is-3d');
+              state('error', 'Model 3D terlalu lama dimuat. Render statis tetap ditampilkan — coba lagi.');
+            }
+          }, 45000);
+        } catch {
+          if (!disposed) { stage.classList.remove('is-3d'); state('error', 'Model 3D belum bisa dimuat. Render statis tetap ditampilkan — periksa koneksi lalu coba lagi.'); }
+        }
       }
-      select.addEventListener('change', () => choose());
+      loadBtn.addEventListener('click', start);
       reset.addEventListener('click', resetCamera);
-      zoom.forEach((button, index) => button.addEventListener('click', () => {
-        const orbit = viewer.getCameraOrbit();
-        viewer.setAttribute('camera-orbit', `${orbit.theta}rad ${orbit.phi}rad ${orbit.radius * (index ? 1.25 : 0.8)}m`);
-      }));
-      retry.addEventListener('click', () => initialize(true));
-      host.querySelector('.model-current-name').textContent = selected.label;
-      initialize();
+      if (select) select.addEventListener('change', () => {
+        selected = models.find(m => m.src === select.value) || models[0];
+        showPoster();
+        if (viewer) { stage.classList.remove('is-3d'); start(); } else state('idle');
+      });
+      showPoster();
+      if (!hasWebGL) state('nowebgl', 'Perangkat ini tidak mendukung WebGL, jadi model ditampilkan sebagai render statis.');
+      else state('idle');
     }
   };
 })();

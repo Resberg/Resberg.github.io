@@ -48,24 +48,28 @@
   addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
 
   /* ---------- dialogs ---------- */
-  function openDialog(d) { d.showModal(); document.body.classList.add('modal-open'); lenis && lenis.stop(); }
+  let opener = null;
+  function openDialog(d) { opener = document.activeElement; d.showModal(); document.body.classList.add('modal-open'); lenis && lenis.stop(); }
   $$('dialog').forEach(d => {
     $('.dialog-close', d).addEventListener('click', () => d.close());
-    d.addEventListener('close', () => { document.body.classList.remove('modal-open'); lenis && lenis.start(); });
+    d.addEventListener('close', () => { document.body.classList.remove('modal-open'); lenis && lenis.start(); if (opener && opener.isConnected) opener.focus({ preventScroll: true }); opener = null; });
     d.addEventListener('click', e => {
       if (e.target !== d) return;
       const r = d.getBoundingClientRect();
       if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) d.close();
     });
   });
-  $('.cv-button').addEventListener('click', () => { openDialog($('#cv-dialog')); $('.cv-doc').scrollTop = 0; });
+  $('.cv-button').addEventListener('click', () => {
+    const cvImg = $('.cv-doc img'); if (cvImg.dataset.src) { cvImg.src = cvImg.dataset.src; delete cvImg.dataset.src; }
+    openDialog($('#cv-dialog')); $('.cv-doc').scrollTop = 0;
+  });
   $$('[data-photo]').forEach(b => b.addEventListener('click', () => {
     const img = $('#photo-full'); img.src = b.dataset.photo; img.alt = b.dataset.caption;
     $('#photo-description').textContent = b.dataset.caption; openDialog($('#photo-dialog'));
   }));
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   $$('[data-project]').forEach(card => card.addEventListener('click', () => {
-    const p = window.projects && projects[card.dataset.project]; if (!p) return;
+    const p = typeof projects !== 'undefined' && projects[card.dataset.project]; if (!p) return;
     $('#project-detail').innerHTML =
       `<span class="eyebrow">${esc(p.category)}</span><h2>${esc(p.title)}<em>.</em></h2><span class="detail-status">${esc(p.status)}</span>` +
       (p.models ? '<section class="project-model-slot" aria-label="Preview model 3D"></section>' : '') +
@@ -351,7 +355,7 @@
   const mega = $('.display.mega');
   const megaChars = splitChars(mega);
   const manifestoWords = splitWords($('.manifesto'));
-  G.fromTo(manifestoWords, { opacity: 0.12 }, { opacity: 1, ease: 'none', stagger: 0.05, scrollTrigger: { trigger: '.manifesto', start: 'top 78%', end: 'bottom 45%', scrub: 0.5 } });
+  G.fromTo(manifestoWords, { color: '#737a86' }, { color: (i, el) => el.closest('mark') ? '#6f95ff' : '#eef0f4', ease: 'none', stagger: 0.05, scrollTrigger: { trigger: '.manifesto', start: 'top 78%', end: 'bottom 45%', scrub: 0.5 } });
 
   /* generic arrivals: rise from below, decelerate */
   const rise = sel => ST.batch(sel, {

@@ -4,7 +4,7 @@ const projects = {
     "title": "Robot Sumo",
     "category": "Robotika kompetisi",
     "status": "Partisipasi kompetisi",
-    "image": "assets/sumo-competition.png",
+    "image": "assets/img/sumo-competition.webp",
     "imageAlt": "Kolase robot sumo, persiapan arena, dan tim KSM IoT; bertuliskan FaST Festival 2026.",
     "caption": "Dokumentasi robot sumo dan tim KSM Internet of Things UPN Veteran Jakarta.",
     "intro": "Pengalaman mengembangkan robot sumo bersama KSM IoT dan mengikuti kompetisi sebagai bagian dari proses belajar hardware engineering.",
@@ -12,6 +12,10 @@ const projects = {
       [
         "Peran saya",
         "Sebagai Staff Hardware Engineering, saya berkontribusi pada desain 3D untuk kebutuhan proyek serta perancangan PCB sistem embedded dalam tim."
+      ],
+      [
+        "Spesifikasi & keputusan teknis",
+        "Robot sumo kelas 3 kg yang dioperasikan dengan remote control untuk bergerak dan bermanuver di arena. Kendali motor memakai driver BTS7960."
       ],
       [
         "Pengalaman kompetisi",
@@ -24,17 +28,22 @@ const projects = {
     ],
     "tags": [
       "Robot sumo",
+      "BTS7960",
       "Desain 3D",
       "Hardware engineering"
     ],
     "models": [
       {
         "label": "Sumo final",
-        "src": "assets/models/sumo-final.glb"
+        "src": "assets/models/sumo-final.glb",
+        "poster": "assets/img/cad-sumo-final-lg.webp",
+        "size": "140 KB"
       },
       {
         "label": "Sumo 1 kg",
-        "src": "assets/models/sumo-1kg.glb"
+        "src": "assets/models/sumo-1kg.glb",
+        "poster": "assets/img/cad-sumo-1kg-lg.webp",
+        "size": "60 KB"
       }
     ]
   },
@@ -42,7 +51,7 @@ const projects = {
     "title": "Robot Transporter",
     "category": "Robotika kompetisi",
     "status": "Partisipasi FNC Bandung",
-    "image": "assets/transporter-fnc.png",
+    "image": "assets/img/transporter-fnc.webp",
     "imageAlt": "Kolase robot transporter, rangkaian robot, dan tim KSM IoT pada FNC Robotika Nusantara.",
     "caption": "Dokumentasi FNC (Festival Nasional Cerdas) Robotika Nusantara, Bandung.",
     "intro": "Proyek robot transporter bersama KSM IoT yang menjadi bagian dari pengalaman saya mengikuti FNC di Bandung.",
@@ -50,6 +59,10 @@ const projects = {
       [
         "Peran saya",
         "Saya berkontribusi dalam tim hardware melalui perancangan model 3D untuk kebutuhan proyek dan perancangan PCB sistem embedded."
+      ],
+      [
+        "Tujuan & pengujian (pekerjaan tim)",
+        "Robot dirancang untuk memindahkan objek. Tim mengintegrasikan mekanisme penggerak, rangkaian listrik, dan sistem kendali gerak, lalu melakukan pengujian fungsional."
       ],
       [
         "Konteks proyek",
@@ -69,7 +82,9 @@ const projects = {
     "models": [
       {
         "label": "Transporter",
-        "src": "assets/models/transporter.glb"
+        "src": "assets/models/transporter.glb",
+        "poster": "assets/img/cad-transporter-lg.webp",
+        "size": "6,6 MB"
       }
     ]
   },
@@ -82,7 +97,7 @@ const projects = {
     "sections": [
       [
         "Tujuan pengembangan",
-        "Tim mengeksplorasi penerapan neuro-fuzzy sebagai pendekatan kendali gerak AGV. Pendekatan ini merupakan arah kebaruan yang ingin dikembangkan dalam proyek."
+        "Tim mengeksplorasi penerapan neuro-fuzzy sebagai pendekatan kendali gerak AGV. Pendekatan ini merupakan arah kebaruan yang ingin dikembangkan, dengan target naskah jurnal terindeks SINTA atau Scopus."
       ],
       [
         "Ruang kontribusi",
@@ -131,7 +146,7 @@ const projects = {
     "title": "OtwLimo · GEMASTIK",
     "category": "Kota cerdas",
     "status": "Partisipasi GEMASTIK XIX 2026",
-    "image": "assets/gemastik-otwlimo.png",
+    "image": "assets/img/gemastik-otwlimo.webp",
     "imageAlt": "Dokumentasi GEMASTIK XIX 2026 divisi Kota Cerdas; bagian tengah menampilkan tim OtwLimo dan antarmuka dashboard kendali alat.",
     "caption": "Tim OtwLimo ditampilkan pada bagian tengah dokumentasi GEMASTIK XIX 2026, divisi Kota Cerdas.",
     "intro": "Berpartisipasi dalam GEMASTIK XIX 2026 divisi Kota Cerdas bersama tim OtwLimo sebagai bagian dari tim hardware.",
