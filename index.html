@@ -6,32 +6,44 @@
 <meta name="theme-color" content="#07090d">
 <meta name="description" content="Portofolio Muhamad Fahrez Bukhori, mahasiswa Teknik Elektro UPN Veteran Jakarta. Hardware engineering, robotika, desain 3D, dan sistem embedded.">
 <title>Fahrez Bukhori — Engineering meets curiosity.</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' rx='20' fill='%232455f5'/%3E%3Ctext x='20' y='58' font-size='55' fill='white' font-family='Arial' font-weight='bold'%3Ef.%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/brand/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+<link rel="canonical" href="https://resberg.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://resberg.github.io/">
+<meta property="og:title" content="Muhamad Fahrez Bukhori — Hardware, CAD &amp; PCB">
+<meta property="og:description" content="Mahasiswa Teknik Elektro UPN Veteran Jakarta. Desain CAD dan PCB untuk robot kompetisi KSM IoT, Rangkai Lab, dan pengalaman kelistrikan.">
+<meta property="og:image" content="https://resberg.github.io/assets/brand/og-image.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Muhamad Fahrez Bukhori — render model CAD Robot Transporter">
+<meta property="og:locale" content="id_ID">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="main.css?v=motion-20261114a">
-<link rel="stylesheet" href="project-viewer.css?v=motion-20261114a">
+<link rel="stylesheet" href="main.css?v=motion-20261114b">
+<link rel="stylesheet" href="project-viewer.css?v=motion-20261114b">
 <script>document.documentElement.classList.add('js');if(matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('reduced')</script>
 <script src="assets/vendor/gsap-3.12.5.min.js" defer></script>
 <script src="assets/vendor/ScrollTrigger-3.12.5.min.js" defer></script>
 <script src="assets/vendor/lenis-1.1.13.min.js" defer></script>
-<script src="content.js?v=motion-20261114a" defer></script>
-<script src="project-viewer.js?v=motion-20261114a" defer></script>
-<script src="main.js?v=motion-20261114a" defer></script>
+<script src="content.js?v=motion-20261114b" defer></script>
+<script src="project-viewer.js?v=motion-20261114b" defer></script>
+<script src="main.js?v=motion-20261114b" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Langsung ke konten</a>
 
 <div class="loader" aria-hidden="true">
   <svg class="loader-trace" viewBox="0 0 1200 200" preserveAspectRatio="none"><path d="M0 100H380L420 60H560L600 140H760L800 100H1200"/></svg>
-  <div class="loader-mark">f<span>.</span></div>
+  <div class="loader-mark"><svg class="fb-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 27V5h17l4 4v2.5L22.5 15H14"/><path d="M14 5v22h10l3.5-3.5v-5L24 15h-2"/><path d="M5 16h3.5"/></svg></div>
 </div>
 
 <div class="cursor" aria-hidden="true"><span class="cursor-dot"></span><span class="cursor-ring"><b class="cursor-label">Lihat</b></span></div>
 <div class="grain" aria-hidden="true"></div>
 
 <header class="nav">
-  <a class="brand" href="#home" aria-label="Fahrez, ke beranda">f<span>.</span></a>
+  <a class="brand" href="#home" aria-label="Fahrez Bukhori, ke beranda"><svg class="fb-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 27V5h17l4 4v2.5L22.5 15H14"/><path d="M14 5v22h10l3.5-3.5v-5L24 15h-2"/><path d="M5 16h3.5"/></svg></a>
   <nav class="nav-links" aria-label="Navigasi utama">
     <a href="#about" data-roll="Tentang"><span>Tentang</span></a>
     <a href="#education" data-roll="Pendidikan"><span>Pendidikan</span></a>
@@ -190,13 +202,13 @@
       </div>
 
       <button class="pcard" data-project="sumo" data-cursor="Buka">
-        <div class="pcard-art photo"><img src="assets/img/sumo-competition.webp" alt="Kolase robot sumo, persiapan arena, dan tim KSM IoT; bertuliskan FaST Festival 2026." loading="lazy"><span class="badge">Model 3D</span></div>
+        <div class="pcard-art photo"><img src="assets/img/sumo-competition.webp" alt="Kolase robot sumo, persiapan arena, dan tim KSM IoT; bertuliskan FaST Festival 2026." loading="lazy"><span class="cad-inset"><img src="assets/img/cad-sumo-final-800.webp" width="800" height="800" alt="Render model CAD Robot Sumo" loading="lazy"><b>Model CAD</b></span><span class="badge">Model 3D</span></div>
         <div class="pcard-meta"><span class="pcard-type">Robotika kompetisi</span><h3>Robot Sumo</h3><p>Desain hardware dan pengalaman kompetisi robot sumo.</p></div>
         <span class="pcard-num" aria-hidden="true">01</span>
       </button>
 
       <button class="pcard" data-project="transporter" data-cursor="Buka">
-        <div class="pcard-art photo"><img src="assets/img/transporter-fnc.webp" alt="Kolase robot transporter, rangkaian robot, dan tim KSM IoT pada FNC Robotika Nusantara." loading="lazy"><span class="badge">Model 3D</span></div>
+        <div class="pcard-art photo"><img src="assets/img/transporter-fnc.webp" alt="Kolase robot transporter, rangkaian robot, dan tim KSM IoT pada FNC Robotika Nusantara." loading="lazy"><span class="cad-inset"><img src="assets/img/cad-transporter-800.webp" width="800" height="800" alt="Render model CAD Robot Transporter" loading="lazy"><b>Model CAD</b></span><span class="badge">Model 3D</span></div>
         <div class="pcard-meta"><span class="pcard-type">Robotika kompetisi</span><h3>Robot Transporter</h3><p>Pengembangan robot bersama tim untuk FNC Bandung.</p></div>
         <span class="pcard-num" aria-hidden="true">02</span>
       </button>
@@ -253,15 +265,7 @@
       </button>
 
       <a class="pcard" href="https://resberg.github.io/rangkai-lab/" target="_blank" rel="noopener noreferrer" data-cursor="Kunjungi">
-        <div class="pcard-art illo illo-rangkai">
-          <svg viewBox="0 0 500 320" aria-hidden="true">
-            <path class="circuit" id="circuit" d="M110 220V90H200l10-14 14 28 14-28 14 28 14-28 10 14H390V230H110"/>
-            <path class="battery" d="M92 210h36M100 222h20"/>
-            <circle class="node" cx="110" cy="90" r="5"/><circle class="node" cx="390" cy="90" r="5"/><circle class="node" cx="390" cy="230" r="5"/>
-            <circle class="electron e1" r="5"/><circle class="electron e2" r="5"/><circle class="electron e3" r="5"/>
-          </svg>
-          <span class="badge">Aplikasi web ↗</span>
-        </div>
+        <div class="pcard-art photo ui-shot"><img src="assets/img/rangkai-lab.webp" width="1440" height="900" alt="Tangkapan layar Rangkai Lab: meja rangkai dengan rangkaian seri dua resistor dan panel langkah rumus." loading="lazy"><span class="badge">Aplikasi web ↗</span></div>
         <div class="pcard-meta"><span class="pcard-type">Elektronika &amp; aplikasi web</span><h3>Rangkai Lab</h3><p>Gambar rangkaian dan lihat tegangan, arus, serta langkah perhitungannya.</p></div>
         <span class="pcard-num" aria-hidden="true">07</span>
       </a>
@@ -395,7 +399,7 @@
 </main>
 
 <footer class="footer">
-  <a class="brand" href="#home">f<span>.</span></a>
+  <a class="brand" href="#home" aria-label="Fahrez Bukhori, ke beranda"><svg class="fb-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 27V5h17l4 4v2.5L22.5 15H14"/><path d="M14 5v22h10l3.5-3.5v-5L24 15h-2"/><path d="M5 16h3.5"/></svg></a>
   <p>© <span id="year">2026</span> Muhamad Fahrez Bukhori</p>
   <a href="#home" class="to-top">Kembali ke atas ↑</a>
 </footer>

@@ -424,8 +424,8 @@
       .to(['.bbox', '.handles rect', '.bbox-label'], { opacity: 0, duration: 0.35, ease: 'power3.in' }, '+=1.6')
       .set(['.bbox', '.handles rect', '.bbox-label'], { opacity: 1 });
     // Rangkai Lab: electrons flow around the circuit
-    const circ = $('#circuit'), cl = circ.getTotalLength();
-    $$('.electron').forEach((e, i) => {
+    const circ = $('#circuit'), cl = circ ? circ.getTotalLength() : 0;
+    if (circ) $$('.electron').forEach((e, i) => {
       const o = { s: (cl / 3) * i };
       G.to(o, { s: '+=' + cl, duration: 5, ease: 'none', repeat: -1, onUpdate: () => { const p = circ.getPointAtLength(o.s % cl); e.setAttribute('cx', p.x); e.setAttribute('cy', p.y); } });
     });
